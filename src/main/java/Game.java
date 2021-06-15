@@ -3,13 +3,13 @@ import java.util.Scanner;
 public class Game {
 
     private Player playerOne;
-    private ArtIntel aiPlayer;
+    private AIPlayer aiPlayer;
     private Scanner scanner;
 
     private void initGame() {
         scanner = new Scanner(System.in);
         playerOne = new Player(scanner);
-        aiPlayer = new ArtIntel();
+        aiPlayer = new AIPlayer();
     }
 
     public Game() {
@@ -20,13 +20,13 @@ public class Game {
         boolean state = true;
         while (playerOne.getCardList().size() > 0) {
             Card one, two;
-
             if (state) {
                 System.out.println("Ход игрока");
                 one = playerOne.makeMove();
                 System.out.println("ИИ защищается");
                 Thread.sleep(1000);
                 two = aiPlayer.makeMove(false);
+                aiPlayer.addRivalInfo(one);
                 System.out.println("Выбор сделан! Игрок: " + one.getValue() + ", ИИ: " + two.getValue());
             } else {
                 System.out.println("Ход ИИ");
@@ -34,11 +34,11 @@ public class Game {
                 one = aiPlayer.makeMove(true);
                 System.out.println("Игрок защищается");
                 two = playerOne.makeMove();
+                aiPlayer.addRivalInfo(two);
                 System.out.println("Выбор сделан! ИИ: " + one.getValue() + ", Игрок: " + two.getValue());
             }
             takeFine(one, two, state);
             System.out.println();
-            aiPlayer.addOut(one);
             state = !state;
         }
         getWinner();
@@ -56,6 +56,8 @@ public class Game {
                 System.out.println("Игрок получает штраф: " + value);
                 playerOne.addFine(value);
             }
+        } else {
+            System.out.println("Без штрафных баллов");
         }
     }
 

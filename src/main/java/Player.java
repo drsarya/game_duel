@@ -1,5 +1,4 @@
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,12 +19,7 @@ public class Player {
     }
 
     public Card makeMove() {
-        for (int i = 0; i < cardList.size(); i++) {
-            System.out.print(cardList.get(i).getValue());
-            if (i < cardList.size() - 1) {
-                System.out.print(", ");
-            }
-        }
+        printCards();
         Card card = null;
         boolean bError = true;
         while (bError) {
@@ -36,10 +30,21 @@ public class Player {
                 cardList.remove(card);
                 bError = false;
             } catch (Exception e) {
-                System.out.println("Error!");
+                System.out.println("Ошибка! Повторите ввод");
+                scanner.nextLine();
             }
         }
         return card;
+    }
+
+    public void printCards() {
+        System.out.print("Карты: ");
+        for (int i = 0; i < cardList.size(); i++) {
+            System.out.print(cardList.get(i).getValue());
+            if (i < cardList.size() - 1) {
+                System.out.print(", ");
+            }
+        }
     }
 
     public void addFine(int value) {

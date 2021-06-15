@@ -6,7 +6,7 @@ import java.util.List;
 @Getter
 public class Card {
     private final int value;
-    private final static int count = 3;
+    private final static int count = 7;
 
     public Card(int value) {
         if (value >= 0 && value < count) {
